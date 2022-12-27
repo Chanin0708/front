@@ -50,11 +50,14 @@
     <b-card style="width: 1400px; height: auto" class="mx-auto">
       <div v-if="fruitlist.length > 0">
         <div class="pt-3 mx-auto">
-          <b-table :items="fruitlist" :fields="fields">
-            <template v-slot:cell(name)="data">
-              {{ data.item.name }}
-            </template>
-          </b-table>
+          <b-table striped hover :items="fruitlist" :fields="['name', 'photo']">
+    <template v-slot:cell(name)="data">
+      {{ data.item.name }}
+    </template>
+    <template v-slot:cell(photo)="data">
+      <img :src="data.item.filePath" alt="fruit photo" />
+    </template>
+  </b-table>
         </div>
       </div>
     </b-card>
