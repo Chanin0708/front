@@ -16,7 +16,7 @@
               <div class="d-block">
                 <b-form @submit.stop.prevent="onSubmit">
                   <b-form-group label="Name : " label-for="name">
-                    <b-form-input v-model="name" :state="validation"></b-form-input>
+                    <b-form-input v-model="name"></b-form-input>
                   </b-form-group>
                   <b-form-group label="Photo" label-for="photo">
                     <b-form-file v-model="photo" accept="image/*"></b-form-file>
@@ -32,7 +32,7 @@
           </div>
 
           <div class="col-12 d-flex justify-content-end">
-            <b-form-input v-model="search" placeholder="Search for names" @input="searchName"
+            <b-form-input v-model="search" placeholder="Search for names" @input.native="searchName"
               style="width: 200px; height: auto"></b-form-input>
           </div>
         </div>
@@ -87,6 +87,19 @@ export default {
     }
   },
   methods: {
+    searchName() {
+    console.log("aaaaaa")
+    axios
+      .get(`http://localhost:3000/searchdatafruit/?name=${this.search}`)
+      .then((response) => {
+        console.log("fsdfsdfs")
+        console.log(response.data.data)
+        this.fruitlist = response.data.data;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  },
     onSubmit() {
       const formData = new FormData();
       formData.append('name', this.name);
@@ -95,7 +108,7 @@ export default {
       axios
         .post("http://localhost:3000" + "/upload", formData)
         .then((response) => {
-          console.log(response.data);
+          // console.log(response.data);
           // Close the modal
           this.$bvModal.hide('bv-modal-example');
           // Display a notification based on the response message
@@ -118,7 +131,7 @@ export default {
           }
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
           // Check the status code
           if (error.response.status === 400) {
             // Display a notification that stays on the screen until the user closes it
@@ -140,29 +153,21 @@ export default {
         });
     },
     getfruit() {
-      console.log("aaaaa")
+      // console.log("aaaaa")
       this.axios.get("http://localhost:3000" + "/getdatafruit", {
         headers: {
           'Access-Control-Allow-Origin': '*',
         }
       }).then((response) => {
-        console.log("fdsfsdf")
+        // console.log("fdsfsdf")
         console.log(response.data.data)
         this.fruitlist = response.data.data;
-        console.log(this.fruitlist)
+        // console.log(this.fruitlist)
       })
     }
-  },
-  searchName() {
-    axios
-      .get("http://localhost:3000" + "/getdatafruit" + this.search)
-      .then((response) => {
-        this.fruitlist = response.data;
-      })
-      .catch((error) => {
-        console.log(error);
-      });
   }
+
+
 
 };
 </script>
