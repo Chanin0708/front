@@ -42,12 +42,13 @@
     <b-card style="width: 1400px; height: auto" class="mx-auto">
       <div v-if="fruitlist.length > 0">
         <div class="pt-3 mx-auto">
-          <b-table striped hover :items="fruitlist" :fields="['name', 'photo']">
-            <template v-slot:cell(name)="data">
-              {{ data.item.name }}
+          <b-table striped hover :items="fruitlist"
+            :fields="[{ key: 'name', label: 'ชื่อผลไม้' }, { key: 'photo', label: '' }]">
+            <template v-slot:cell(name)="data" v-if="showNameColumn">
+              <div style="font-size: 90px;">{{ data.item.name }}</div>
             </template>
             <template v-slot:cell(photo)="data">
-              <img :src="data.item.filePath" alt="fruit photo" />
+              <img :src="'data:image/jpeg;base64,' + data.item.photo" alt="fruit photo" width="200" height="200" />
             </template>
           </b-table>
         </div>
@@ -88,18 +89,18 @@ export default {
   },
   methods: {
     searchName() {
-    console.log("aaaaaa")
-    axios
-      .get(`http://localhost:3000/searchdatafruit/?name=${this.search}`)
-      .then((response) => {
-        console.log("fsdfsdfs")
-        console.log(response.data.data)
-        this.fruitlist = response.data.data;
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  },
+      console.log("aaaaaa")
+      axios
+        .get(`http://localhost:3000/searchdatafruit/?name=${this.search}`)
+        .then((response) => {
+          console.log("fsdfsdfs")
+          console.log(response.data.data)
+          this.fruitlist = response.data.data;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
     onSubmit() {
       const formData = new FormData();
       formData.append('name', this.name);
@@ -171,3 +172,8 @@ export default {
 
 };
 </script>
+<style>
+.large-font {
+  font-size: 60px;
+}
+</style>
