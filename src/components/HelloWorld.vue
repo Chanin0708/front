@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-      <b-card style="width: 1400px; height: auto" class="mx-auto">
+      <b-card style="width: 1400px; height: auto; border: none;" class="mx-auto">
         <div class="row">
 
           <div class="col-12 d-flex justify-content-end">
@@ -39,10 +39,10 @@
       </b-card>
     </div>
 
-    <b-card style="width: 1400px; height: auto" class="mx-auto">
+    <b-card style="width: 1400px; height: auto; border: none;" class="mx-auto" >
       <div v-if="fruitlist.length > 0">
         <div class="pt-3 mx-auto">
-          <b-table striped hover :items="fruitlist"
+          <b-table :items="fruitlist"
             :fields="[{ key: 'name', label: 'ชื่อผลไม้' }, { key: 'photo', label: '' }]">
             <template v-slot:cell(name)="data" v-if="showNameColumn">
               <div style="font-size: 90px;">{{ data.item.name }}</div>
